@@ -21,6 +21,16 @@ public class Client {
   public String getId() {
     return id;
   }
+  
+  public void setName(String newName) {
+    name = newName;
+  }
+  public void setAddress(String newAddress) {
+    address = newAddress;
+  }
+  public void setId(String newId) {
+    phone = newId;
+  }
 
   public String toString() {
     return "Client name: " + name + " address: " + address + " id: " + id;
