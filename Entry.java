@@ -12,7 +12,7 @@ public class Entry {
     }
 
     public String toString() {  //Assuming product has a method called getName.
-        String string = "Product: " + product.getName() + " Quantity: " + quantity;
+        String string = "Product: " + product.getName() + ", Quantity: " + quantity;
         return string;
     }
 

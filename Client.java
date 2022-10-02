@@ -39,6 +39,6 @@ public class Client implements Serializable {
     return this.id.equals(id);
   }
   public String toString() {
-    return "Id: " + id + " Name: " + name + " Address: " + address;
+    return "Id: " + id + ", Name: " + name + ", Address: " + address;
   }
 }

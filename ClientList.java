@@ -52,11 +52,11 @@ public class ClientList implements Serializable {
   }
 
   public void displayList(){
-	for(Iterator<?> current = clients.iterator(); current.hasNext();){
-		Client C = (Client) current.next();
-		System.out.println(C.toString());
-	}
-}
+	  for(Iterator<?> current = clients.iterator(); current.hasNext();){
+		  Client C = (Client) current.next();
+		  System.out.println(C.toString());
+	  }
+  }
 
   public String toString() {
     return clients.toString();
@@ -65,9 +65,9 @@ public class ClientList implements Serializable {
   public Client findClient(String cid){
     Iterator<?> current = clients.iterator();
     while(current.hasNext()){
-      Client C = (Client)current.next();
-      if(C.getId().equals(cid)){
-        return C;
+      Client client = (Client)current.next();
+      if(client.getId().equals(cid)){
+        return client;
       }
     }
   return null;
