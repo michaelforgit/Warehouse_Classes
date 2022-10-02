@@ -28,8 +28,8 @@ public class Warehouse implements Serializable {
   }
   
   public Client addClient(String name, String phone, String address) {
-    Client client = new Client(name, phone, address);
-    if (clients.insertClient(client)) {
+    Client client = new Client(name, address);
+    if (clients.addClient(client)) {
       return (client);
     }
     return null;
