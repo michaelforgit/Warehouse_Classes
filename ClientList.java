@@ -62,11 +62,11 @@ public class ClientList implements Serializable {
     return clients.toString();
   }
 
-  public Client findClient(int cid){
+  public Client findClient(String cid){
     Iterator<?> current = clients.iterator();
     while(current.hasNext()){
       Client C = (Client)current.next();
-      if(C.getId() == cid){
+      if(C.getId().equals(cid)){
         return C;
       }
     }

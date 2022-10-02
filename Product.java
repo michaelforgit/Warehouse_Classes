@@ -13,20 +13,21 @@ public class Product implements Serializable {
   private static final long serialVersionUID = 1L;
   
   private String name;
-  private int id;
+  private String id;
   private int inStock;
   private double salePrice;
+  private static final String PRODUCT_STRING = "P";
 
 //----------Contructor-------------------
   public Product(String n, double sp, int st){
-    id = ProductIdServer.instance().getId();
+    id = PRODUCT_STRING + (ProductIdServer.instance().getId());
     name = n;
     salePrice = sp;
     inStock = st;
   }
 
 //---------accessors------------------
-  public int getProductNumber(){
+  public String getProductNumber(){
     return id;   }
 
   public String getName(){

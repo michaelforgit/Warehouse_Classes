@@ -5,15 +5,17 @@ public class Client implements Serializable {
   private String name;
   private String phone;
   private String address;
-  private int id;
-  //private static final String CLIENT_STRING = "C";
+  private String id;
+  private static final String CLIENT_STRING = "C";
+  private WishList wishlist;
 
 
   public  Client (String name, String phone, String address) {
     this.name = name;
     this.phone = phone;
     this.address = address;
-    id = ClientIdServer.instance().getId();
+    id = CLIENT_STRING + (ClientIdServer.instance().getId());
+    wishlist = WishList.instance();
   }
 
   public String getName() {
@@ -25,17 +27,21 @@ public class Client implements Serializable {
   public String getAddress() {
     return address;
   }
-  public int getId() {
+  public String getId() {
     return id;
   }
+  public WishList getWishList(){
+    return wishlist;
+  }
+
   public void setName(String newName) {
     name = newName;
   }
   public void setAddress(String newAddress) {
     address = newAddress;
   }
-  public boolean equals(int id) {
-    return this.id == id;
+  public boolean equals(String id) {
+    return this.id.equals(id);
   }
   public String toString() {
     return "Client name: " + name + "phone: " + phone + " address: " + address + " id: " + id;

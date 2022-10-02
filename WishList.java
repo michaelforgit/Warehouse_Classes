@@ -21,5 +21,16 @@ public class WishList {
   public String toString() {
     return entries.toString();
   }
+
+  public Iterator<?> getWishList(){
+    return entries.iterator();
+  }
+
+  public void displayList(){
+    for(Iterator<?> current = entries.iterator(); current.hasNext();){
+      Entry E = (Entry) current.next();
+      System.out.println(E.toString());
+    }
+  }
 }
 

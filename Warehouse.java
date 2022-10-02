@@ -36,12 +36,12 @@ public class Warehouse implements Serializable {
   }
 
   
-  public boolean addToClientWishlist(int cid, int pid, int quantity) {
+  public void addToClientWishlist(String cid, String pid, int quantity) {
     Client client = clients.findClient(cid);
     Product product = products.findProduct(pid);
 
     Entry entry = new Entry(quantity, product);
-    WishList wishlist = client.getWishlist();
+    WishList wishlist = client.getWishList();
     wishlist.insertEntry(entry);
   }
 
@@ -54,8 +54,11 @@ public class Warehouse implements Serializable {
     products.displayList();
   }
 
-  public void displayClientWishlist(int cid){
-    //Client client = cList.getClients(cid);
+  public void displayClientWishlist(String cid){
+    Client client = clients.findClient(cid);
+    WishList wishList = client.getWishList();
+
+    wishList.displayList();
   }
 
   public Iterator<?> getProducts() {

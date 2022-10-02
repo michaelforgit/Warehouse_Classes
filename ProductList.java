@@ -60,12 +60,12 @@ public class ProductList implements Serializable{
  //--------removeProduct--------------------
 // Remove product from Product List
 //-------------------------------------------
-  public void removeProduct(int PID){
+  public void removeProduct(String PID){
     int i = 0;
     for(Iterator<?> current = products.iterator(); current.hasNext();){
       i++;
       Product P = (Product) current.next();
-      if(P.getProductNumber() == PID){
+      if(P.getProductNumber().equals(PID)){
         products.remove(i);
       }//endif
     }//endfor
@@ -76,10 +76,10 @@ public class ProductList implements Serializable{
 // Find product in product List by product id
 // returns Null if id not found in list
 //-----------------------------------------------
-  public Product findProduct(int id){
+  public Product findProduct(String id){
     for(Iterator<?> current = products.iterator(); current.hasNext();){
       Product P = (Product) current.next();
-      if(P.getProductNumber() == id){
+      if(P.getProductNumber().equals(id)){
         return P;
       }
     }
@@ -124,28 +124,11 @@ public class ProductList implements Serializable{
   		returnedString = returnedString.concat(curr.next().toString() + '\n');
   	return returnedString;
   }//end toString
-    
-//---------------Search--------------------
-// Searches by product DESCRIPTION
-//-----------------------------------------
-  public List<Product> search(String parameter){
-    List<Product> returnProducts = new ArrayList<Product>();
-    Iterator<?> current = products.iterator();
-    while(current.hasNext()){
-      Product tProduct = (Product)current.next();
-      String tString = tProduct.getName();
-      if(tString.contains(parameter)){
-        returnProducts.add(tProduct);
-      }//end if parameter equals
-    }//end while
-
-    return returnProducts;
-  }//end search with description
 
 //------------Search--------------------------
 // Searches by product ID
 //--------------------------------------------
-  public List<Product> search(long parameter){
+  public List<Product> search(String parameter){
     List<Product> returnProducts = new ArrayList<Product>();
     Iterator<?> current = products.iterator();
     while(current.hasNext()){
@@ -158,19 +141,4 @@ public class ProductList implements Serializable{
     return returnProducts;
   }//end search with id
 
-//--------------Search-------------------------
-// Search by PRICE
-//-------------------------------------------
-  public List<Product> search(double parameter){
-    List<Product> returnProducts = new ArrayList<Product>();
-    Iterator<?> current = products.iterator();
-    while(current.hasNext()){
-      Product tProduct = (Product)current.next();
-      if(tProduct.getSalePrice() == parameter){
-        returnProducts.add(tProduct);
-      }//end if parameter equals
-    }//end while
-
-    return returnProducts;
-  }//end search with double
  }
