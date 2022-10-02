@@ -42,7 +42,7 @@ public class Warehouse implements Serializable {
 
     Entry entry = new Entry(quantity, product);
     WishList wishlist = client.getWishList();
-    wishlist.insertEntry(entry);
+    wishlist.addEntry(entry);
   }
 
 

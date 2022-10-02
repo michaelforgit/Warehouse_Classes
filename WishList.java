@@ -12,9 +12,15 @@ public class WishList {
     }
   }
 
-  public boolean insertEntry(Entry entry) {
-    entries.add(entry);
-    return true;
+  public boolean addEntry(Entry entry) {
+    Entry result = findEntry(entry.getProduct());
+    if (result == null) {
+      entries.add(entry);
+      return true;
+    } else {
+      result.setQuantity(entry.getQuantity());
+      return true;
+    }
   }
 
   public String toString() {
@@ -26,10 +32,17 @@ public class WishList {
   }
 
   public void displayList(){
+    System.out.println(toString());
+  }
+  
+  public Entry findEntry(Product product){
     for(Iterator<?> current = entries.iterator(); current.hasNext();){
-      Entry E = (Entry) current.next();
-      System.out.println(E.toString());
+      Entry entry = (Entry) current.next();
+      if(entry.getProduct().equals(product)){
+        return entry;
+      }
     }
+    return null;
   }
 }
 

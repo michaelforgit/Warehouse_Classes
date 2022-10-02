@@ -12,8 +12,16 @@ public class Entry {
     }
 
     public String toString() {  //Assuming product has a method called getName.
-        String string = "product: " + product.getName() + " quantity: " + quantity;
+        String string = "Product: " + product.getName() + " Quantity: " + quantity;
         return string;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
 }
