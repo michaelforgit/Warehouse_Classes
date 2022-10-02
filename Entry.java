@@ -1,5 +1,5 @@
-import java.util.*;
-import java.io.*;
+//import java.util.*;
+//import java.io.*;
 
 public class Entry {
     private int quantity;
@@ -16,6 +16,7 @@ public class Entry {
 
     public String toString() {  //Assuming product has a method called getName.
         String string = "product: " + product.getName() + " quantity: " + quantity;
+        return string;
     }
 
 }
