@@ -17,5 +17,9 @@ public class WishList {
     entries.add(entry);
     return true;
   }
+
+  public String toString() {
+    return entries.toString();
+  }
 }
 
