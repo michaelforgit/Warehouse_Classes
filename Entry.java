@@ -1,6 +1,3 @@
-import java.util.*;
-import java.io.*;
-
 public class Entry {
     private int quantity;
     private Product product;

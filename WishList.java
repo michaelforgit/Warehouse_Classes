@@ -1,5 +1,4 @@
 import java.util.*;
-import java.io.*;
 public class WishList {
   private LinkedList<Entry> entries = new LinkedList<Entry>();
   private static WishList wishList;
