@@ -13,7 +13,7 @@ public class ClientList {
   }
   
   public void displayClients (PrintWriter p) {
-	Iterator i = clients.iterator();
+	Iterator<?> i = clients.iterator();
 	while(i.hasNext()){
 		p.println(i.next().toString());
 	}
@@ -21,7 +21,7 @@ public class ClientList {
   
   public int findClient (String cid) {
 	 int i = 0;
-	 for (Iterator it = clients.iterator(); it.hasNext(); i++) {
+	 for (Iterator<?> it = clients.iterator(); it.hasNext(); i++) {
 			Client client = (Client) it.next();
 			 if (client.getId().equals(cid)) {
 				 return i;

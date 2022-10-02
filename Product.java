@@ -5,8 +5,8 @@ Product Class
  Sale Price and amount in stock.
 ***************************************************************************/
 
-//import java.util.*;
-//import java.lang.*;
+import java.util.*;
+import java.lang.*;
 import java.io.*;
 
 public class Product implements Serializable {

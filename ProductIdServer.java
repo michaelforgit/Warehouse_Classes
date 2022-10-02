@@ -4,8 +4,8 @@ Product ID server Class
 ******************************************************************************/
 
 import java.io.*;
-//import java.lang.*;
-//import java.util.*;
+import java.lang.*;
+import java.util.*;
 
 public class ProductIdServer implements Serializable{
 	private int idCounter;

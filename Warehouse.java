@@ -3,12 +3,12 @@ import java.io.*;
 
 public class Warehouse implements Serializable {
   private ProductList products;
-  //private ClientList cList;
+  private ClientList clients;
   private static Warehouse warehouse;
 
   private Warehouse() {
     products = ProductList.instance();
-    //cList = clientList.instance();
+    clients = ClientList.instance();
   }
 
   public static Warehouse instance() {
@@ -26,14 +26,14 @@ public class Warehouse implements Serializable {
     }
     return null;
   }
-  /*
+  
   public Client addClient(int cid) {
     Client client = new Client(cid);
     if (cList.insertClient(client)) {
       return (client);
     }
     return null;
-  } */
+  }
 
   /*
   public boolean addToClientWishlist(int cid, int pid, int quantity) {
@@ -44,7 +44,7 @@ public class Warehouse implements Serializable {
 
 
   public void displayClients(){
-    //cList.displayList();
+    cList.displayList();
   }
 
   public void displayProducts(){
