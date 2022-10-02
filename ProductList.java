@@ -42,10 +42,7 @@ public class ProductList implements Serializable{
 // Display Product List
 //-----------------------------------------
     public void displayList(){
-        for(Iterator<?> current = products.iterator(); current.hasNext();){
-            Product product = (Product) current.next();
-            System.out.println(product.toString());
-        }
+        System.out.println(toString());
     }//end DisplayList
     
 //-----------Add Product--------------------

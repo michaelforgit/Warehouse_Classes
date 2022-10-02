@@ -9,29 +9,29 @@ public class ProductDriver {
         System.out.println(product1.toString());
         System.out.println(product2.toString());
         /* Individual Product class method testing */
-        System.out.println("---");
+        System.out.println("INdividual Product class method testing");
         System.out.println(product1.getName());
         System.out.println(product1.getProductNumber());
         System.out.println(product1.getSalePrice());
         System.out.println(product1.getStock());
-        System.out.println("---");
+        System.out.println("ProductLIst testing");
     /* Product list testing */
         ProductList products = ProductList.instance();
         /* Shows addProduct working */
         products.addProduct(product1);
         products.addProduct(product2);
         products.displayList();
-        System.out.println("---");
+        System.out.println("addProducts testing");
         /* Shows addProducts working */
         products.addProducts(product3, product4);
         products.displayList();
-        System.out.println("---");
         /*
+        System.out.println("removeProduct testing");
         products.removeProduct("P1");  //Remove product currently not working.
         products.displayList();
-        System.out.println("---");
         */
         /* shows findProduct working */
-        System.out.println(products.findProduct("P5"));
+        System.out.println("findProduct testing");
+        System.out.println(products.findProduct("P3"));
     }
 }
