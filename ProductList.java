@@ -43,18 +43,25 @@ public class ProductList implements Serializable{
 //-----------------------------------------
     public void displayList(){
         for(Iterator<?> current = products.iterator(); current.hasNext();){
-            Product P = (Product) current.next();
-            System.out.println(P.getData());
+            Product product = (Product) current.next();
+            System.out.println(product.toString());
         }
     }//end DisplayList
     
 //-----------Add Product--------------------
 // Add product to product List
 //------------------------------------------
-  public boolean addProduct(Product P){
-    products.add(P);
+  public boolean addProduct(Product product){
+    products.add(product);
     return true;
   }//end addProduct
+
+  public boolean addProducts(Product...multipleProducts) {
+    for (Product product : multipleProducts) {
+      products.add(product);
+    }
+    return true;
+  }
     
  //--------removeProduct--------------------
 // Remove product from Product List

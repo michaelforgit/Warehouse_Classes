@@ -38,17 +38,10 @@ public class Product implements Serializable {
 	return inStock;  }
 
   
-  public String getData(){
-    String data = "";
-    data += name;
-    data += "\n\tId: " + id;
-    data += "\n\tSale Price:     ";
-    data += salePrice;
-    data += "\n\tStock:          ";
-    data += inStock;
-    data += "\n\tNumber of waitlisted orders: ";
-    return data;
-    }
+  public String toString(){
+    String string = " Id: " + id + " Name: " + name + " Sale Price: " + salePrice + " Stock: " + inStock;
+    return string;
+  }
     
     
 //-----------mutators----------------
@@ -84,13 +77,6 @@ public class Product implements Serializable {
   public void addStock(int quantity){
 	  inStock += quantity;
   }//end addShippedItem
-  
-
-    
-//-------------toString()----------------
-  public String toString(){
-     return getData();  }
-    
 	  
 }//end Product Class
 
