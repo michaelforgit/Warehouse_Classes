@@ -5,8 +5,8 @@ Product Class
  Sale Price and amount in stock.
 ***************************************************************************/
 
-import java.util.*;
-import java.lang.*;
+//import java.util.*;
+//import java.lang.*;
 import java.io.*;
 
 public class Product implements Serializable {
@@ -16,14 +16,13 @@ public class Product implements Serializable {
   private int id;
   private int inStock;
   private double salePrice;
-  private List<WaitListProduct> waitList = new ArrayList<WaitListProduct>();
 
 //----------Contructor-------------------
-  public Product(){
+  public Product(String n, double sp, int st){
     id = ProductIdServer.instance().getId();
-    name = "";
-    salePrice = 0;
-    inStock = 0;
+    name = n;
+    salePrice = sp;
+    inStock = st;
   }
 
 //---------accessors------------------
@@ -49,7 +48,6 @@ public class Product implements Serializable {
     data += "\n\tStock:          ";
     data += inStock;
     data += "\n\tNumber of waitlisted orders: ";
-    data += waitList.size();
     return data;
     }
     
@@ -88,26 +86,7 @@ public class Product implements Serializable {
 	  inStock += quantity;
   }//end addShippedItem
   
-  
-//--------WaitListProduct--------------
-  public void waitListProduct(Order o, int quantity){
-	waitList.add(new WaitListProduct(o, quantity));
-  }//end waitListItem
 
-    
-//------WaitList Iterator-----------------
-  public Iterator getWaitList(){
-	  return waitList.iterator();	  
-  }//end getWaitList
-  
-//-----------FulfillWaitlist---------------------
-// Process item from waitlist then remove it
-//-------------------------------------------------
-  public void finishWaitList(WaitListProduct item){
-     removeStock(item.getQuantity());
-	  item.process();
-	  waitList.remove(item);
-  }//end finishWaitlist
     
 //-------------toString()----------------
   public String toString(){
