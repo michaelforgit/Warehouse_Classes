@@ -1,33 +1,76 @@
 import java.util.*;
 import java.io.*;
-public class ClientList {
+public class ClientList implements Serializable {
+  private static final long serialVersionUID = 1L;
   private LinkedList<Client> clients;	
-
-  public ClientList() {
-	clients = new LinkedList<>();
+  private static ClientList clientList;
+  private ClientList() {
+	  clients = new LinkedList<Client>();
   }
-  
-  public boolean insertClient (Client client) {
+  public static ClientList instance() {
+    if (clientList == null) {
+      return (clientList = new ClientList());
+    } else {
+      return clientList;
+    }
+  }
+
+  public boolean insertClient(Client client) {
     clients.add(client);
     return true;
   }
-  
-  public void displayClients (PrintWriter p) {
-	Iterator<?> i = clients.iterator();
-	while(i.hasNext()){
-		p.println(i.next().toString());
-	}
+
+  public Iterator<?> getClients(){
+     return clients.iterator();
   }
-  
-  public int findClient (String cid) {
-	 int i = 0;
-	 for (Iterator<?> it = clients.iterator(); it.hasNext(); i++) {
-			Client client = (Client) it.next();
-			 if (client.getId().equals(cid)) {
-				 return i;
-			 }
-		 }
-		 return -1;
-	 }
+
+  private void writeObject(java.io.ObjectOutputStream output) {
+    try {
+      output.defaultWriteObject();
+      output.writeObject(clientList);
+    } catch(IOException ioe) {
+      ioe.printStackTrace();
+    }
+  }
+  private void readObject(java.io.ObjectInputStream input) {
+    try {
+      if (clientList != null) {
+        return;
+      } else {
+        input.defaultReadObject();
+        if (clientList == null) {
+          clientList = (ClientList) input.readObject();
+        } else {
+          input.readObject();
+        }
+      }
+    } catch(IOException ioe) {
+      ioe.printStackTrace();
+    } catch(ClassNotFoundException cnfe) {
+      cnfe.printStackTrace();
+    }
+  }
+
+  public void displayList(){
+	for(Iterator<?> current = clients.iterator(); current.hasNext();){
+		Client C = (Client) current.next();
+		System.out.println(C.toString());
+	}
+}
+
+  public String toString() {
+    return clients.toString();
+  }
+
+  public Client findClient(int cid){
+    Iterator<?> current = clients.iterator();
+    while(current.hasNext()){
+      Client C = (Client)current.next();
+      if(C.getId() == cid){
+        return C;
+      }
+    }
+  return null;
+  }
 
 }

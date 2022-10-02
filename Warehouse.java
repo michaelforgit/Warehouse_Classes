@@ -27,24 +27,27 @@ public class Warehouse implements Serializable {
     return null;
   }
   
-  public Client addClient(int cid) {
-    Client client = new Client(cid);
-    if (cList.insertClient(client)) {
+  public Client addClient(String name, String phone, String address) {
+    Client client = new Client(name, phone, address);
+    if (clients.insertClient(client)) {
       return (client);
     }
     return null;
   }
 
-  /*
+  
   public boolean addToClientWishlist(int cid, int pid, int quantity) {
-    Client client = cList.getClient(cid);
-    Product product = pList.getProduct(pid);
-    client.addToWishlist(pid, quantity);
-  } */
+    Client client = clients.findClient(cid);
+    Product product = products.findProduct(pid);
+
+    Entry entry = new Entry(quantity, product);
+    WishList wishlist = client.getWishlist();
+    wishlist.insertEntry(entry);
+  }
 
 
   public void displayClients(){
-    cList.displayList();
+    clients.displayList();
   }
 
   public void displayProducts(){
@@ -52,20 +55,20 @@ public class Warehouse implements Serializable {
   }
 
   public void displayClientWishlist(int cid){
-    //Client client = cList.getClient(cid);
+    //Client client = cList.getClients(cid);
   }
 
   public Iterator<?> getProducts() {
       return products.getProducts();
   }
 
-  /*
-  public Iterator getClients() {
-      //return cList.getClients();
-  } */
+  
+  public Iterator<?> getClients() {
+      return clients.getClients();
+  }
 
-  /*
+  
   public String toString() {
-    //return pList + "\n" + cList;
-  } */
+    return products + "\n" + clients;
+  }
 }
