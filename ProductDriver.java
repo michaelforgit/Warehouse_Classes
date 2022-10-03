@@ -25,12 +25,6 @@ public class ProductDriver {
         /* Shows addProducts working */
         products.addProducts(product3, product4);
         products.displayList();
-        /*
-        System.out.println("removeProduct testing");
-        products.removeProduct("P1");  //Remove product currently not working.
-        products.displayList();
-        */
-        /* shows findProduct working */
         System.out.println("findProduct testing");
         System.out.println(products.findProduct("P3"));
     }
