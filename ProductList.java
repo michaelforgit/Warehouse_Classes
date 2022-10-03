@@ -60,21 +60,6 @@ public class ProductList implements Serializable{
     return true;
   }
     
- //--------removeProduct--------------------
-// Remove product from Product List
-//-------------------------------------------
-  public void removeProduct(String PID){
-    int i = 0;
-    for(Iterator<?> current = products.iterator(); current.hasNext();){
-      i++;
-      Product P = (Product) current.next();
-      if(P.getProductNumber().equals(PID)){
-        products.remove(i);
-      }//endif
-    }//endfor
-  }//end removeProduct
-    
-    
 //----------------findProduct----------------------
 // Find product in product List by product id
 // returns Null if id not found in list
