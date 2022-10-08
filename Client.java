@@ -1,4 +1,5 @@
 import java.io.*;
+
 public class Client implements Serializable {
   private static final long serialVersionUID = 1L;
   private String name;
@@ -12,7 +13,7 @@ public class Client implements Serializable {
     this.name = name;
     this.address = address;
     id = CLIENT_STRING + (ClientIdServer.instance().getId());
-    wishlist = WishList.instance();
+    wishlist = new WishList();
   }
 
   public String getName() {

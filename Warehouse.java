@@ -27,7 +27,7 @@ public class Warehouse implements Serializable {
     return null;
   }
   
-  public Client addClient(String name, String phone, String address) {
+  public Client addClient(String name, String address) {
     Client client = new Client(name, address);
     if (clients.addClient(client)) {
       return (client);
@@ -56,9 +56,9 @@ public class Warehouse implements Serializable {
 
   public void displayClientWishlist(String cid){
     Client client = clients.findClient(cid);
-    WishList wishList = client.getWishList();
+    WishList wishlist = client.getWishList();
 
-    wishList.displayList();
+    wishlist.displayList();
   }
 
   public Iterator<?> getProducts() {
