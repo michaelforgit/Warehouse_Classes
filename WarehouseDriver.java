@@ -5,8 +5,7 @@ public class WarehouseDriver {
     {
         int choice = 1;
         Scanner reader = new Scanner(System.in);
-        ClientList clientlist = ClientList.instance();
-        ProductList productlist = ProductList.instance();
+        Warehouse warehouse = Warehouse.instance();
 
         System.out.println("Welcome to the Warehouse system.");
         
@@ -29,11 +28,9 @@ public class WarehouseDriver {
                 System.out.println("Enter client address:");
                 String address = reader.nextLine();
 
-                Client client = new Client(name, address);
-                clientlist.addClient(client);
+                warehouse.addClient(name, address);
 
-                System.out.println("Client created. Here is the client information:");
-                System.out.println(client.toString());
+                System.out.println("Client created.");
             }
             else if(choice == 2){
                 System.out.println("Enter product name:");
@@ -44,44 +41,35 @@ public class WarehouseDriver {
                 System.out.println("Enter amount of product in stock:");
                 int inStock = Integer.parseInt(reader.nextLine());
 
-                Product product = new Product(name, price, inStock);
-                productlist.addProduct(product);
+                warehouse.addProduct(name, price, inStock);
 
-                System.out.println("Product created. Here is the product information:");
-                System.out.println(product.toString());
+                System.out.println("Product created.");
             }
             else if(choice == 3){
                 System.out.println("Enter client ID:");
                 String cid = reader.nextLine();
-                Client client = clientlist.findClient(cid);
 
                 System.out.println("Enter product ID:");
                 String pid = reader.nextLine();
-                Product product = productlist.findProduct(pid);
-                System.out.println("product to be added: " + product.toString());
 
                 System.out.println("Enter quantity of product to add to wishlist:");
                 int quantity = Integer.parseInt(reader.nextLine());
-                Entry entry = new Entry(quantity, product);
                 
-                System.out.println("The following entry will be added: " + entry.toString());
-
-                client.getWishList().addEntry(entry);
+                warehouse.addToClientWishlist(cid, pid, quantity);
 
                 System.out.println("The product was added to the client's wishlist.");
             }
             else if(choice == 4){
-                clientlist.displayList();
+                warehouse.displayClients();
             }
             else if(choice == 5){
-                productlist.displayList();
+                warehouse.displayProducts();
             }
             else if(choice == 6){
                 System.out.println("Enter client ID:");
                 String cid = reader.nextLine();
 
-                Client client = clientlist.findClient(cid);
-                client.getWishList().displayList();
+                warehouse.displayClientWishlist(cid);
             }
             else{
                 choice = 7;

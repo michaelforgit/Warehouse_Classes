@@ -2,7 +2,7 @@ import java.util.*;
 public class WishList {
   private LinkedList<Entry> entries = new LinkedList<Entry>();
   private static WishList wishList;
-  private WishList() {  
+  public WishList() {  
   }
   public static WishList instance() {
     if (wishList == null) {
