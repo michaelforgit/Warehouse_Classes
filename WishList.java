@@ -45,12 +45,5 @@ public class WishList {
     return null;
   }
 
-  public boolean removeEntry(Entry entry){
-    Entry result = findEntry(entry.getProduct());
-    entries.remove(result);
-
-    return true;
-  }
-
 }
 

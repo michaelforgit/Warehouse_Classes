@@ -87,14 +87,14 @@ public class Warehouse implements Serializable {
 
       if(choice == 2){
         invoice.addEntry(entry, client);
-        client.getWishList().removeEntry(entry);
+        current.remove();
       }
       else if(choice == 3){
         System.out.println("Enter new quantity: ");
         int qty = Integer.parseInt(reader.nextLine());
         entry.setQuantity(qty);
         invoice.addEntry(entry, client);
-        client.getWishList().removeEntry(entry);
+        current.remove();
       }
     }
 
