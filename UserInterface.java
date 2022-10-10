@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class WarehouseDriver {
+public class UserInterface {
     public static void main(String args[])
     {
         int choice = 1;
