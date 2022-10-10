@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class WarehouseDriver {
+public class UserInterface {
     public static void main(String args[])
     {
         int choice = 1;
@@ -9,7 +9,7 @@ public class WarehouseDriver {
 
         System.out.println("Welcome to the Warehouse system.");
         
-        while(choice != 7)
+        while(choice != 0)
         {
             System.out.println("Enter your choice:");
             System.out.println("1 - Add client:");
@@ -18,7 +18,10 @@ public class WarehouseDriver {
             System.out.println("4 - Display all clients with details");
             System.out.println("5 - Display all products with details");
             System.out.println("6 - Display a client's wishlist");
-            System.out.println("7 - Exit the system");
+            System.out.println("7 - Process a client's wishlist");
+            System.out.println("8 - Display all clients with an outstanding balance");
+            System.out.println("9 - Display a product's waitlist");
+            System.out.println("0 - Exit the system");
             
             choice = Integer.parseInt(reader.nextLine());
 
@@ -71,8 +74,23 @@ public class WarehouseDriver {
 
                 warehouse.displayClientWishlist(cid);
             }
+            else if(choice == 7){
+                System.out.println("Enter client ID:");
+                String cid = reader.nextLine();
+
+                warehouse.processClientWishlist(cid, reader);
+            }
+            else if(choice == 8){
+                warehouse.displayClientsWithBalance();
+            }
+            else if(choice == 9){
+                System.out.println("Enter product ID:");
+                String pid = reader.nextLine();
+
+                warehouse.displayProductWaitlist(pid);
+            }
             else{
-                choice = 7;
+                choice = 0;
             }
         }
 

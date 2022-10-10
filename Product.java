@@ -15,6 +15,7 @@ public class Product implements Serializable {
   private int inStock;
   private double salePrice;
   private static final String PRODUCT_STRING = "P";
+  private Waitlist waitlist;
 
 //----------Contructor-------------------
   public Product(String n, double sp, int st){
@@ -22,6 +23,7 @@ public class Product implements Serializable {
     name = n;
     salePrice = sp;
     inStock = st;
+    waitlist = new Waitlist();
   }
 
 //---------accessors------------------
@@ -77,6 +79,10 @@ public class Product implements Serializable {
   public void addStock(int quantity){
 	  inStock += quantity;
   }//end addShippedItem
+
+  public Waitlist getWaitlist(){
+    return waitlist;
+  }
 	  
 }//end Product Class
 
