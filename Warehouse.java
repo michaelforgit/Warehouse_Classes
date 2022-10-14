@@ -119,6 +119,61 @@ public class Warehouse implements Serializable {
 
     waitlist.displayList();
   }
+
+  public void processShipment(String pid, int quantity, Scanner reader){
+    Product product = products.findProduct(pid);
+    Shipment shipment = new Shipment(quantity, product);
+    product.addStock(shipment.getQuantity());
+
+    for(Iterator<?> current = product.getWaitlist().getWaitlist(); current.hasNext();){
+      int shipAmt = shipment.getQuantity();
+      
+      if(shipAmt == 0){
+        break;
+      }
+
+      Request request = (Request) current.next();
+
+      //Display entry to user
+      System.out.println("Current request: " + request.toString());
+
+      //Giver user 3 options
+      System.out.println("Select an option:");
+      System.out.println("1 - Leave on waitlist");
+      System.out.println("2 - Order product with existing quantity");
+      System.out.println("3 - Order product with new quantity");
+      int choice = Integer.parseInt(reader.nextLine());
+
+      if((choice != 2) && (choice !=3)){
+        continue;
+      }
+      else if(choice == 3){
+        System.out.println("Enter new quantity: ");
+        int qty = Integer.parseInt(reader.nextLine());
+        request.setQuantity(qty);
+      }
+
+      Entry entry = new Entry(request.getQuantity(), product);
+
+      if(entry.getQuantity() > shipAmt){
+        entry.setQuantity(shipAmt);
+        request.setQuantity(request.getQuantity() - entry.getQuantity());
+      }
+      else{
+        current.remove();
+      }
+
+      shipment.removeQuantity(entry.getQuantity());
+
+      Invoice invoice = new Invoice();
+      invoice.addEntry(entry, request.getClient());
+      request.getClient().charge(invoice.getTotal());
+    }
+
+    System.out.println("Updated product information: " + product.toString());
+    System.out.println("Updated product waitlist:");
+    product.getWaitlist().displayList();
+  }
   
   public String toString() {
     return products + "\n" + clients;

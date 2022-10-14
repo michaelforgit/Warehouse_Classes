@@ -21,6 +21,7 @@ public class UserInterface {
             System.out.println("7 - Process a client's wishlist");
             System.out.println("8 - Display all clients with an outstanding balance");
             System.out.println("9 - Display a product's waitlist");
+            System.out.println("10 - Process a product's shipment");
             System.out.println("0 - Exit the system");
             
             choice = Integer.parseInt(reader.nextLine());
@@ -88,6 +89,15 @@ public class UserInterface {
                 String pid = reader.nextLine();
 
                 warehouse.displayProductWaitlist(pid);
+            }
+            else if(choice == 10){
+                System.out.println("Enter ID of product in shipment:");
+                String pid = reader.nextLine();
+
+                System.out.println("Enter quantity of product in shipment:");
+                int qty = Integer.parseInt(reader.nextLine());
+
+                warehouse.processShipment(pid, qty, reader);
             }
             else{
                 choice = 0;
