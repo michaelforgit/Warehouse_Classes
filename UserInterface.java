@@ -32,9 +32,14 @@ public class UserInterface {
                 System.out.println("Enter client address:");
                 String address = reader.nextLine();
 
-                warehouse.addClient(name, address);
+                Client client = warehouse.addClient(name, address);
 
-                System.out.println("Client created.");
+                if(client == null){
+                    System.out.println("Client information invalid.");
+                }
+                else{
+                    System.out.println("Client created.");
+                }
             }
             else if(choice == 2){
                 System.out.println("Enter product name:");
@@ -45,9 +50,14 @@ public class UserInterface {
                 System.out.println("Enter amount of product in stock:");
                 int inStock = Integer.parseInt(reader.nextLine());
 
-                warehouse.addProduct(name, price, inStock);
+                Product product = warehouse.addProduct(name, price, inStock);
 
-                System.out.println("Product created.");
+                if(product == null){
+                    System.out.println("Product information invalid.");
+                }
+                else{
+                    System.out.println("Product created.");
+                }
             }
             else if(choice == 3){
                 System.out.println("Enter client ID:");
@@ -59,9 +69,9 @@ public class UserInterface {
                 System.out.println("Enter quantity of product to add to wishlist:");
                 int quantity = Integer.parseInt(reader.nextLine());
                 
-                warehouse.addToClientWishlist(cid, pid, quantity);
-
-                System.out.println("The product was added to the client's wishlist.");
+                if(warehouse.addToClientWishlist(cid, pid, quantity)){
+                    System.out.println("The product was added to the client's wishlist.");
+                }
             }
             else if(choice == 4){
                 warehouse.displayClients();

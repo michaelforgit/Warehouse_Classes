@@ -35,13 +35,19 @@ public class Warehouse implements Serializable {
     return null;
   }
   
-  public void addToClientWishlist(String cid, String pid, int quantity) {
+  public boolean addToClientWishlist(String cid, String pid, int quantity) {
     Client client = clients.findClient(cid);
     Product product = products.findProduct(pid);
+
+    if((client == null) || (product == null)){
+      System.out.println("Invalid information entered.");
+      return false;
+    }
 
     Entry entry = new Entry(quantity, product);
     WishList wishlist = client.getWishList();
     wishlist.addEntry(entry);
+    return true;
   }
 
 
@@ -55,6 +61,12 @@ public class Warehouse implements Serializable {
 
   public void displayClientWishlist(String cid){
     Client client = clients.findClient(cid);
+
+    if(client == null){
+      System.out.println("Invalid information entered.");
+      return;
+    }
+
     WishList wishlist = client.getWishList();
 
     wishlist.displayList();
@@ -71,6 +83,11 @@ public class Warehouse implements Serializable {
   public void processClientWishlist(String cid, Scanner reader){
     Invoice invoice = new Invoice();
     Client client = clients.findClient(cid);
+
+    if(client == null){
+      System.out.println("Invalid information entered.");
+      return;
+    }
 
     for(Iterator<?> current = client.getWishList().getWishList(); current.hasNext();){
       Entry entry = (Entry) current.next();
@@ -115,6 +132,12 @@ public class Warehouse implements Serializable {
 
   public void displayProductWaitlist(String pid){
     Product product = products.findProduct(pid);
+
+    if(product == null){
+      System.out.println("Invalid information entered.");
+      return;
+    }
+
     Waitlist waitlist = product.getWaitlist();
 
     waitlist.displayList();
@@ -122,6 +145,12 @@ public class Warehouse implements Serializable {
 
   public void processShipment(String pid, int quantity, Scanner reader){
     Product product = products.findProduct(pid);
+
+    if(product == null){
+      System.out.println("Invalid information entered.");
+      return;
+    }
+
     Shipment shipment = new Shipment(quantity, product);
     product.addStock(shipment.getQuantity());
 
