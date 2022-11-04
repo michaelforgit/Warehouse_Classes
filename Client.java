@@ -9,7 +9,6 @@ public class Client implements Serializable {
   private WishList wishlist;
   private float amountDue;
 
-
   public  Client (String name, String address) {
     this.name = name;
     this.address = address;

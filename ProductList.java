@@ -74,7 +74,7 @@ public class ProductList implements Serializable{
     return null;
   }
     
-/*---------------writeObject---------------------
+//---------------writeObject---------------------
   private static void writeObject(java.io.ObjectOutputStream output) {
 	try{
 		output.defaultWriteObject();
@@ -103,7 +103,7 @@ public class ProductList implements Serializable{
 		cnfe.printStackTrace();
 	}//end try-catch block
   }//end readObject
-/* */
+//
 //-----------toString()------------------------
   public String toString(){
   	String returnedString = "";
