@@ -1,9 +1,8 @@
 import java.util.*;
-import java.text.*;
-import java.io.*;
+
 public class ClientMenuState extends WareState {
   private static ClientMenuState clientState;
-  private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+  private Scanner reader = new Scanner(System.in);
   private static Warehouse warehouse;
   private static final int EXIT = 0;
   private static final int MODIFY_CART = 3;
@@ -26,18 +25,15 @@ public class ClientMenuState extends WareState {
   }
   public String getToken(String prompt) {
     do {
-      try {
         System.out.println(prompt);
-        String line = reader.readLine();
+        String line = reader.nextLine();
         StringTokenizer tokenizer = new StringTokenizer(line,"\n\r\f");
         if (tokenizer.hasMoreTokens()) {
           return tokenizer.nextToken();
         }
-      } catch (IOException ioe) {
-        System.exit(0);
-      }
     } while (true);
   }
+
   private boolean yesOrNo(String prompt) {
     String more = getToken(prompt + " (Y|y)[es] or anything else for no");
     if (more.charAt(0) != 'y' && more.charAt(0) != 'Y') {
