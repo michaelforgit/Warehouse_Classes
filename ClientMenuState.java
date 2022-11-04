@@ -6,12 +6,13 @@ public class ClientMenuState extends WareState {
   private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
   private static Warehouse warehouse;
   private static final int EXIT = 0;
-  private static final int ADD_PRODUCT_TO_WISHLIST = 3;
+  private static final int MODIFY_CART = 3;
   private static final int DISPLAY_PRODUCTS = 5;
   private static final int DISPLAY_WISHLIST = 6;
   private static final int PLACE_ORDER = 7;
-  private static final int DISPLAY_INFO = 11;
-
+  private static final int SHOW_DETAILS = 11;
+  private static final int DISPLAY_TRANSACTIONS = 12;
+  private static final int HELP = 13;
   private ClientMenuState() {
     warehouse = Warehouse.instance();
   }
@@ -72,11 +73,12 @@ public class ClientMenuState extends WareState {
   public void help() {
     System.out.println("Enter a number between 0 and 12 as explained below:");
     System.out.println(EXIT + " to Exit\n");
-    System.out.println(ISSUE_BOOKS + " to  issue books to a  member");
-    System.out.println(RENEW_BOOKS + " to  renew books ");
-    System.out.println(PLACE_HOLD + " to  place a hold on a book");
-    System.out.println(REMOVE_HOLD + " to  remove a hold on a book");
-    System.out.println(GET_TRANSACTIONS + " to  print transactions");
+    System.out.println(MODIFY_CART + " to modify the shopping cart");
+    System.out.println(DISPLAY_PRODUCTS + " to display products with prices");
+    System.out.println(DISPLAY_WISHLIST + " to to display wishlist");
+    System.out.println(PLACE_ORDER + " to place an order");
+    System.out.println(SHOW_DETAILS + " to display client details");
+    System.out.println(DISPLAY_TRANSACTIONS + " to display transactions");
     System.out.println(HELP + " for help");
   }
 
@@ -86,21 +88,47 @@ public class ClientMenuState extends WareState {
     while ((command = getCommand()) != EXIT) {
       switch (command) {
 
-        case ISSUE_BOOKS:       issueBooks();
-                                break;
-        case RENEW_BOOKS:       renewBooks();
-                                break;
-        case PLACE_HOLD:        placeHold();
-                                break;
-        case REMOVE_HOLD:       removeHold();
-                                break;
-        case GET_TRANSACTIONS:  getTransactions();
-                                break;
-        case HELP:              help();
-                                break;
+        case MODIFY_CART:
+            modifyCart();
+            break;
+        case DISPLAY_PRODUCTS:
+            displayProducts();
+            break;
+        case DISPLAY_WISHLIST:
+            displayWishlist();
+            break;
+        case PLACE_ORDER:
+            placeOrder();
+            break;
+        case SHOW_DETAILS:
+            showDetails();
+            break;
+        case DISPLAY_TRANSACTIONS:
+            displayTransactions();
+            break;
+        case HELP:
+            help();
+            break;
       }
     }
     logout();
+  }
+
+  public void modifyCart(){
+    Product product;
+    String clientID = WareContext.instance().getClient();
+
+    do{
+        String productID = getToken("Enter product ID: ");
+        int quantity = Integer.parseInt(getToken("Enter product quantity: "));
+        if(warehouse.addToClientWishlist(clientID, productID, quantity)){
+            System.out.println("Added product to wishlist");
+        }
+        else{
+            System.out.println("Invalid information.");
+        }
+    } while (true);
+
   }
 
   public void run() {
@@ -109,16 +137,18 @@ public class ClientMenuState extends WareState {
 
   public void logout()
   {
-    if ((LibContext.instance()).getLogin() == LibContext.IsClerk)
-       { //stem.out.println(" going to clerk \n ");
-         (LibContext.instance()).changeState(1); // exit with a code 1
+    if ((WareContext.instance()).getLogin() == WareContext.IsClient)
+       { //client->client logout go to logout
+         (WareContext.instance()).changeState(0); // [0][0] = 3
         }
-    else if (LibContext.instance().getLogin() == LibContext.IsUser)
-       {  //stem.out.println(" going to login \n");
-        (LibContext.instance()).changeState(0); // exit with a code 2
+    else if (WareContext.instance().getLogin() == WareContext.IsClerk)
+       {  //clerk->client logout go to clerk
+        (WareContext.instance()).changeState(1); // [0][1] = 1
        }
-    else 
-       (LibContext.instance()).changeState(2); // exit code 2, indicates error
+    else if (WareContext.instance().getLogin() == WareContext.IsManager) {
+      //manager->client is not possible
+      (WareContext.instance()).changeState(2); // [0][2] = -2
+    }
   }
  
 }

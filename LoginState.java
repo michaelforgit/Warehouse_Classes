@@ -1,21 +1,21 @@
 import java.util.*;
 import java.text.*;
 import java.io.*;
-public class Loginstate extends LibState{
+public class LoginState extends LibState{
   private static final int CLERK_LOGIN = 0;
   private static final int USER_LOGIN = 1;
   private static final int EXIT = 2;
-  private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));  
+  private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
   private LibContext context;
-  private static Loginstate instance;
-  private Loginstate() {
+  private static LoginState instance;
+  private LoginState() {
       super();
      // context = LibContext.instance();
   }
 
-  public static Loginstate instance() {
+  public static LoginState instance() {
     if (instance == null) {
-      instance = new Loginstate();
+      instance = new LoginState();
     }
     return instance;
   }
@@ -63,7 +63,7 @@ public class Loginstate extends LibState{
 
   private void user(){
     String userID = getToken("Please input the user id: ");
-    if (Library.instance().searchMembership(userID) != null){
+    if (Library.instance().searchMembership(userID) != null){  //Warehouse.instance()
       (LibContext.instance()).setLogin(LibContext.IsUser);
       (LibContext.instance()).setUser(userID);      
       (LibContext.instance()).changeState(1);
