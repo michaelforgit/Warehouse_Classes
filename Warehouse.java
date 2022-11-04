@@ -260,4 +260,10 @@ public class Warehouse implements Serializable {
             e.printStackTrace();
         }
     }
+
+    public void displayClientDetails(String cid){
+        Client client = clients.findClient(cid);
+
+        System.out.println(client.toString());
+    }
 }

@@ -133,6 +133,32 @@ public class ClientMenuState extends WareState {
 
   }
 
+  public void displayProducts(){
+    warehouse.displayProducts();
+  }
+
+  public void displayWishlist(){
+    String clientID = WareContext.instance().getClient();
+
+    warehouse.displayClientWishlist(clientID);
+  }
+
+  public void placeOrder(){
+    String clientID = WareContext.instance().getClient();
+
+    warehouse.processClientWishlist(clientID, reader);
+  }
+
+  public void showDetails(){
+    String clientID = WareContext.instance().getClient();
+
+    warehouse.displayClientDetails(clientID);
+  }
+
+  public void displayTransactions(){
+    
+  }
+
   public void run() {
     process();
   }
