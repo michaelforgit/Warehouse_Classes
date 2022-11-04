@@ -115,7 +115,6 @@ public class ClientMenuState extends WareState {
   }
 
   public void modifyCart(){
-    Product product;
     String clientID = WareContext.instance().getClient();
 
     do{
@@ -126,6 +125,9 @@ public class ClientMenuState extends WareState {
         }
         else{
             System.out.println("Invalid information.");
+        }
+        if(!(yesOrNo("Add another product?"))){
+            break;
         }
     } while (true);
 
