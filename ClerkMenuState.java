@@ -27,18 +27,18 @@ public class ClerkMenuState extends WareState {
   }
 
   public void help() {
-    System.out.println("Enter a number between 0 and 12 as explained below:");
-    System.out.println(EXIT + " to Exit\n");
-    System.out.println(ADD_CLIENT + " to add a client");
-    System.out.println(LIST_PRODUCTS + " to list all products and information");
-    System.out.println(LIST_CLIENTS + " to list all clients and information");
-    System.out.println(LIST_CLIENTS_OUTSTANDING + " to list clients with an outstanding balance");
-    System.out.println(ACCEPT_PAYMENT + " to accept a client payment");
+    System.out.println("CLERK MENU");
+    System.out.println(EXIT + "  | Exit");
+    System.out.println(ADD_CLIENT + "  | Add a client");
+    System.out.println(LIST_PRODUCTS + "  | List all products and information");
+    System.out.println(LIST_CLIENTS + "  | List all clients and information");
+    System.out.println(LIST_CLIENTS_OUTSTANDING + "  | List clients with an outstanding balance");
+    System.out.println(ACCEPT_PAYMENT + " | Accept a client payment");
     if(WareContext.instance().getLogin() == WareContext.IsClerk){
-      System.out.println(BECOME_CLIENT + " to log in as a client");
+      System.out.println(BECOME_CLIENT + " | Log in as a client");
     }
-    System.out.println(DISPLAY_PRODUCT_WAITLIST + " to display a product's waitlist");
-    System.out.println(HELP + " for help");
+    System.out.println(DISPLAY_PRODUCT_WAITLIST + "  | Display a product's waitlist");
+    System.out.println(HELP + " | Help");
   }
 
   public void process() {
@@ -86,9 +86,9 @@ public class ClerkMenuState extends WareState {
   }
 
   public void addClient(){
-    System.out.println("Enter client name: ");
+    System.out.print("Enter client name: ");
     String name = reader.nextLine();
-    System.out.println("Enter client address: ");
+    System.out.print("Enter client address: ");
     String address = reader.nextLine();
 
     Client client = warehouse.addClient(name, address);
@@ -114,10 +114,10 @@ public class ClerkMenuState extends WareState {
   }
 
   public void acceptPayment(){
-    System.out.println("Enter client ID: ");
+    System.out.print("Enter client ID: ");
     String cid = reader.nextLine();
 
-    System.out.println("Enter amount to charge client: ");
+    System.out.print("Enter amount to charge client: ");
     float amount = Float.parseFloat(reader.nextLine());
 
     warehouse.acceptClientPayment(cid, amount);
@@ -125,7 +125,7 @@ public class ClerkMenuState extends WareState {
   }
 
   public void becomeClient(){
-    System.out.println("Enter client ID: ");
+    System.out.print("Enter client ID: ");
     String clientID = reader.nextLine();
 
     if(warehouse.searchClient(clientID)){
@@ -138,7 +138,7 @@ public class ClerkMenuState extends WareState {
   }
 
   public void displayProductWaitlist(){
-    System.out.println("Enter product ID: ");
+    System.out.print("Enter product ID: ");
     String pid = reader.nextLine();
 
     warehouse.displayProductWaitlist(pid);

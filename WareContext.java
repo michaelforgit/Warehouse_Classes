@@ -42,8 +42,7 @@ public class WareContext {
         { return clientID;}
 
     private WareContext() { //constructor
-        System.out.println("In WareContext constructor");
-        System.out.println("Search for saved data to use? (Y/N):");
+        System.out.print("Search for saved data to use? (Y/N):");
         String choice = reader.nextLine();
         if(choice.equals("Y") || choice.equals("y")) {
             retrieve();
@@ -91,7 +90,6 @@ public class WareContext {
 
     public static WareContext instance() {
         if (context == null) {
-            System.out.println("calling constructor");
             context = new WareContext();
         }
         return context;
