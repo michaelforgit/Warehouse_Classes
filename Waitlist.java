@@ -1,6 +1,7 @@
 import java.util.*;
+import java.io.*;
 
-public class Waitlist {
+public class Waitlist implements Serializable{
     private LinkedList<Request> requests = new LinkedList<Request>();
     
     public Waitlist(){

@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.*;
 
-public class Invoice {
+public class Invoice implements Serializable {
     private LinkedList<Entry> entries;
     private static Invoice invoice;
     private float total;

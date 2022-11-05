@@ -1,5 +1,7 @@
 import java.util.*;
-public class WishList {
+import java.io.*;
+
+public class WishList implements Serializable {
   private LinkedList<Entry> entries = new LinkedList<Entry>();
   private static WishList wishList;
   public WishList() {  

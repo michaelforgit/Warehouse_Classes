@@ -118,6 +118,7 @@ public class Warehouse implements Serializable {
         System.out.println("Here is the finalized invoice:");
         invoice.displayList();
         client.charge(invoice.getTotal());
+        client.addInvoice(invoice);
     }
 
     public void displayClientsWithBalance(){
@@ -207,13 +208,14 @@ public class Warehouse implements Serializable {
         return products + "\n" + clients;
     }
 
-
-    public static Warehouse retrieve() {
+    public static Warehouse retrieve(){
         try {
             FileInputStream file = new FileInputStream("WarehouseData");
-            ObjectInputStream input = new ObjectInputStream(file);
-            input.readObject();
-            MemberIdServer.retrieve(input); //Put something here
+            ObjectInputStream in = new ObjectInputStream(file);
+            //List all objects that need to be read.
+            in.readObject();
+            ClientIdServer.retrieve(in);
+            ProductIdServer.retrieve(in);
             return warehouse;
         } catch(IOException ioe) {
             ioe.printStackTrace();
@@ -224,46 +226,81 @@ public class Warehouse implements Serializable {
         }
     }
 
-    public static boolean save() {
+    public boolean save(){
         try {
             FileOutputStream file = new FileOutputStream("WarehouseData");
-            ObjectOutputStream output = new ObjectOutputStream(file);
-            output.writeObject(warehouse);
-            output.writeObject(MemberIdServer.instance());  //Put something here
+            try (ObjectOutputStream out = new ObjectOutputStream(file)) {
+                //List all objects that need to be written
+                out.writeObject(warehouse);
+                out.writeObject(ClientIdServer.instance());
+                out.writeObject(ProductIdServer.instance());
+            }
             return true;
         } catch(IOException ioe) {
             ioe.printStackTrace();
             return false;
         }
+        
     }
 
-    private void writeObject(java.io.ObjectOutputStream output) {
-        try {
+
+
+    private void writeObject(java.io.ObjectOutputStream output){
+        try{
             output.defaultWriteObject();
             output.writeObject(warehouse);
-        } catch(IOException ioe) {
-            System.out.println(ioe);
+        } catch(IOException ioe){
+            ioe.printStackTrace();
         }
     }
 
-    private void readObject(java.io.ObjectInputStream input) {
-        try {
-            input.defaultReadObject();
-            if (warehouse == null) {
-                warehouse = (Warehouse) input.readObject();
-            } else {
-                input.readObject();
+
+    private void readObject(java.io.ObjectInputStream input){
+        try{
+            if(warehouse != null){
+                return;
+            } else{
+                input.defaultReadObject();
+                if(warehouse == null){
+                    warehouse = (Warehouse) input.readObject();
+                } else {
+                    input.readObject();
+                }
             }
-        } catch(IOException ioe) {
+        } catch (IOException ioe){
             ioe.printStackTrace();
-        } catch(Exception e) {
-            e.printStackTrace();
+        } catch(ClassNotFoundException cnfe){
+            cnfe.printStackTrace();
         }
+        
     }
 
     public void displayClientDetails(String cid){
         Client client = clients.findClient(cid);
 
         System.out.println(client.toString());
+    }
+
+    public void displayClientTransactions(String cid){
+        Client client = clients.findClient(cid);
+
+        System.out.println(client.getInvoiceList().toString());
+    }
+
+    public void acceptClientPayment(String cid, float amount){
+        Client client = clients.findClient(cid);
+
+        client.pay(amount);
+    }
+
+    public boolean searchClient(String cid){
+        Client client = clients.findClient(cid);
+
+        if(client == null){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }

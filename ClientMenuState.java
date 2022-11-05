@@ -11,7 +11,7 @@ public class ClientMenuState extends WareState {
   private static final int PLACE_ORDER = 7;
   private static final int SHOW_DETAILS = 11;
   private static final int DISPLAY_TRANSACTIONS = 12;
-  private static final int HELP = 13;
+  private static final int HELP = 16;
   private ClientMenuState() {
     warehouse = Warehouse.instance();
   }
@@ -22,48 +22,6 @@ public class ClientMenuState extends WareState {
     } else {
       return clientState;
     }
-  }
-  public String getToken(String prompt) {
-    do {
-        System.out.println(prompt);
-        String line = reader.nextLine();
-        StringTokenizer tokenizer = new StringTokenizer(line,"\n\r\f");
-        if (tokenizer.hasMoreTokens()) {
-          return tokenizer.nextToken();
-        }
-    } while (true);
-  }
-
-  private boolean yesOrNo(String prompt) {
-    String more = getToken(prompt + " (Y|y)[es] or anything else for no");
-    if (more.charAt(0) != 'y' && more.charAt(0) != 'Y') {
-      return false;
-    }
-    return true;
-  }
-  public int getNumber(String prompt) {
-    do {
-      try {
-        String item = getToken(prompt);
-        Integer num = Integer.valueOf(item);
-        return num.intValue();
-      } catch (NumberFormatException nfe) {
-        System.out.println("Please input a number ");
-      }
-    } while (true);
-  }
-
-  public int getCommand() {
-    do {
-      try {
-        int value = Integer.parseInt(getToken("Enter command:" + HELP + " for help"));
-        if (value >= EXIT && value <= HELP) {
-          return value;
-        }
-      } catch (NumberFormatException nfe) {
-        System.out.println("Enter a number");
-      }
-    } while (true);
   }
 
   public void help() {
@@ -81,7 +39,8 @@ public class ClientMenuState extends WareState {
   public void process() {
     int command;
     help();
-    while ((command = getCommand()) != EXIT) {
+    command = Integer.parseInt(reader.nextLine());
+    while (command != EXIT) {
       switch (command) {
 
         case MODIFY_CART:
@@ -105,7 +64,11 @@ public class ClientMenuState extends WareState {
         case HELP:
             help();
             break;
+        default:
+          System.out.println("Invalid choice");
       }
+      help();
+      command = Integer.parseInt(reader.nextLine());
     }
     logout();
   }
@@ -114,16 +77,23 @@ public class ClientMenuState extends WareState {
     String clientID = WareContext.instance().getClient();
 
     do{
-        String productID = getToken("Enter product ID: ");
-        int quantity = Integer.parseInt(getToken("Enter product quantity: "));
+        System.out.println("Enter product ID: ");
+        String productID = reader.nextLine();
+        System.out.println("Enter product quantity: ");
+        int quantity = Integer.parseInt(reader.nextLine());
         if(warehouse.addToClientWishlist(clientID, productID, quantity)){
             System.out.println("Added product to wishlist");
         }
         else{
             System.out.println("Invalid information.");
         }
-        if(!(yesOrNo("Add another product?"))){
-            break;
+        System.out.println("Add another product? (Y/N): ");
+        String choice = reader.nextLine();
+        if(choice.equals("Y") || choice.equals("y")){
+          continue;
+        }
+        else{
+          break;
         }
     } while (true);
 
@@ -152,7 +122,9 @@ public class ClientMenuState extends WareState {
   }
 
   public void displayTransactions(){
-    
+    String clientID = WareContext.instance().getClient();
+
+    warehouse.displayClientTransactions(clientID);
   }
 
   public void run() {
@@ -162,17 +134,15 @@ public class ClientMenuState extends WareState {
   public void logout()
   {
     if ((WareContext.instance()).getLogin() == WareContext.IsClient)
-       { //client->client logout go to logout
-         (WareContext.instance()).changeState(0); // [0][0] = 3
-        }
+    { //client->client logout go to logout
+      (WareContext.instance()).changeState(0); // [0][0] = 3
+    }
     else if (WareContext.instance().getLogin() == WareContext.IsClerk)
-       {  //clerk->client logout go to clerk
+    {  //clerk->client logout go to clerk
         (WareContext.instance()).changeState(1); // [0][1] = 1
-       }
-    else if (WareContext.instance().getLogin() == WareContext.IsManager) {
-      //manager->client is not possible
-      (WareContext.instance()).changeState(2); // [0][2] = -2
+    }
+    else {
+      (WareContext.instance()).changeState(3); // [0][3] = -2
     }
   }
- 
 }
