@@ -18,10 +18,10 @@ public class WareContext {
         try {
             Warehouse tempWarehouse = Warehouse.retrieve();
             if (tempWarehouse != null) {
-                System.out.println(" The library has been successfully retrieved from the file LibraryData \n" );
+                System.out.println(" The warehouse has been successfully retrieved from the file WarehouseData \n" );
                 warehouse = tempWarehouse;
             } else {
-                System.out.println("File doesnt exist; creating new library" );
+                System.out.println("File doesnt exist; creating new WarehouseData" );
                 warehouse = Warehouse.instance();
             }
         } catch(Exception cnfe) {
@@ -81,7 +81,7 @@ public class WareContext {
         String choice = reader.nextLine();
         if(choice.equals("Y") || choice.equals("y")) {
             if (warehouse.save()) {
-                System.out.println("The warehouse has been successfully saved in the file LibraryData \n" );
+                System.out.println("The warehouse has been successfully saved in the file WarehouseData \n" );
             } else {
                 System.out.println("There has been an error in saving \n" );
             }
