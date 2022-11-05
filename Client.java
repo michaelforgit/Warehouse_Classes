@@ -8,7 +8,7 @@ public class Client implements Serializable {
   private static final String CLIENT_STRING = "C";
   private WishList wishlist;
   private float amountDue;
-
+  private InvoiceList invoices;
 
   public  Client (String name, String address) {
     this.name = name;
@@ -16,6 +16,7 @@ public class Client implements Serializable {
     id = CLIENT_STRING + (ClientIdServer.instance().getId());
     wishlist = new WishList();
     this.amountDue = 0;
+    invoices = new InvoiceList();
   }
 
   public String getName() {
@@ -52,6 +53,18 @@ public class Client implements Serializable {
   }
   public String toString() {
     return "Id: " + id + ", Name: " + name + ", Address: " + address;
+  }
+
+  public InvoiceList getInvoiceList(){
+    return invoices;
+  }
+
+  public void pay(float amount){
+    amountDue -= amount;
+  }
+
+  public void addInvoice(Invoice invoice){
+    invoices.addInvoice(invoice);
   }
 
 }

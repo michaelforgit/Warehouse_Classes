@@ -74,36 +74,36 @@ public class ProductList implements Serializable{
     return null;
   }
     
-/*---------------writeObject---------------------
+//---------------writeObject---------------------
   private static void writeObject(java.io.ObjectOutputStream output) {
-	try{
-		output.defaultWriteObject();
-		output.writeObject(pList);
-	} catch(IOException ioe){
-		ioe.printStackTrace();
-	} //end try-catch block
+    try{
+      output.defaultWriteObject();
+      output.writeObject(pList);
+    } catch(IOException ioe){
+      ioe.printStackTrace();
+    } //end try-catch block
   }//end writeObject
 
 //---------------readObject------------------------
   private static void readObject(java.io.ObjectInputStream input){
-	try{
-		if(pList != null)
-			return;
-		else{
-			input.defaultReadObject();
-			if(pList == null){
-				pList = (ProductList) input.readObject();
-			} else {
-				input.readObject();
-			}//end if-else
-		}//end if-else
-	} catch (IOException ioe){
-		ioe.printStackTrace();
-	} catch(ClassNotFoundException cnfe) {
-		cnfe.printStackTrace();
-	}//end try-catch block
+    try{
+      if(pList != null)
+        return;
+      else{
+        input.defaultReadObject();
+        if(pList == null){
+          pList = (ProductList) input.readObject();
+        } else {
+          input.readObject();
+        }//end if-else
+      }//end if-else
+    } catch (IOException ioe){
+      ioe.printStackTrace();
+    } catch(ClassNotFoundException cnfe) {
+      cnfe.printStackTrace();
+    }//end try-catch block
   }//end readObject
-/* */
+//
 //-----------toString()------------------------
   public String toString(){
   	String returnedString = "";
