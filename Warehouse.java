@@ -107,7 +107,7 @@ public class Warehouse implements Serializable {
                 current.remove();
             }
             else if(choice == 3){
-                System.out.println("Enter new quantity: ");
+                System.out.print("Enter new quantity: ");
                 int qty = Integer.parseInt(reader.nextLine());
                 entry.setQuantity(qty);
                 invoice.addEntry(entry, client);
@@ -178,7 +178,7 @@ public class Warehouse implements Serializable {
                 continue;
             }
             else if(choice == 3){
-                System.out.println("Enter new quantity: ");
+                System.out.print("Enter new quantity: ");
                 int qty = Integer.parseInt(reader.nextLine());
                 request.setQuantity(qty);
             }

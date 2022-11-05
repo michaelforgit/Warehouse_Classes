@@ -25,15 +25,15 @@ public class ClientMenuState extends WareState {
   }
 
   public void help() {
-    System.out.println("Enter a number between 0 and 12 as explained below:");
-    System.out.println(EXIT + " to Exit\n");
-    System.out.println(MODIFY_CART + " to modify the shopping cart");
-    System.out.println(DISPLAY_PRODUCTS + " to display products with prices");
-    System.out.println(DISPLAY_WISHLIST + " to to display wishlist");
-    System.out.println(PLACE_ORDER + " to place an order");
-    System.out.println(SHOW_DETAILS + " to display client details");
-    System.out.println(DISPLAY_TRANSACTIONS + " to display transactions");
-    System.out.println(HELP + " for help");
+    System.out.println("CLIENT MENU");
+    System.out.println(EXIT + "  | Exit");
+    System.out.println(MODIFY_CART + "  | Modify the shopping cart");
+    System.out.println(DISPLAY_PRODUCTS + "  | Display products with prices");
+    System.out.println(DISPLAY_WISHLIST + "  | Display wishlist");
+    System.out.println(PLACE_ORDER + "  | Place an order");
+    System.out.println(SHOW_DETAILS + " | Display client details");
+    System.out.println(DISPLAY_TRANSACTIONS + " | Display transactions");
+    System.out.println(HELP + " | Help");
   }
 
   public void process() {
@@ -77,9 +77,9 @@ public class ClientMenuState extends WareState {
     String clientID = WareContext.instance().getClient();
 
     do{
-        System.out.println("Enter product ID: ");
+        System.out.print("Enter product ID: ");
         String productID = reader.nextLine();
-        System.out.println("Enter product quantity: ");
+        System.out.print("Enter product quantity: ");
         int quantity = Integer.parseInt(reader.nextLine());
         if(warehouse.addToClientWishlist(clientID, productID, quantity)){
             System.out.println("Added product to wishlist");
@@ -87,7 +87,7 @@ public class ClientMenuState extends WareState {
         else{
             System.out.println("Invalid information.");
         }
-        System.out.println("Add another product? (Y/N): ");
+        System.out.print("Add another product? (Y/N): ");
         String choice = reader.nextLine();
         if(choice.equals("Y") || choice.equals("y")){
           continue;

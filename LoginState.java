@@ -21,7 +21,7 @@ public class LoginState extends WareState{
   }
 
   private void client(){  //Client
-    System.out.println("Enter client ID: ");
+    System.out.print("Enter client ID: ");
     String clientID = reader.nextLine();
     if (Warehouse.instance().searchClient(clientID)){  //Warehouse.instance()
       (WareContext.instance()).setLogin(WareContext.IsClient);
@@ -44,10 +44,11 @@ public class LoginState extends WareState{
 
   public void process() {
     int command;
-    System.out.println("Please input 0 to login as Client\n"+ 
-                        "input 1 to login as Clerk\n" +
-                        "input 2 to login as Manager\n" +
-                        "input 3 to exit the system\n");
+    System.out.println("LOGIN SCREEN");
+    System.out.println("0 | Login as Client\n"+ 
+                        "1 | Login as Clerk\n" +
+                        "2 | Login as Manager\n" +
+                        "3 | Exit the system\n");
     command = Integer.parseInt(reader.nextLine());
     while (command != EXIT) {
       switch (command) {
@@ -61,13 +62,14 @@ public class LoginState extends WareState{
           manager();
           break;
 
-        default:                System.out.println("Invalid choice");
-                                
+        default:
+          System.out.println("Invalid choice");  
       }
-      System.out.println("Please input 0 to login as client\n"+ 
-                        "input 1 to login as clerk\n" +
-                        "input 2 to login as manager\n" +
-                        "input 3 to exit the system\n");
+      System.out.println("LOGIN SCREEN");
+      System.out.println("0 | Login as Client\n"+ 
+                          "1 | Login as Clerk\n" +
+                          "2 | Login as Manager\n" +
+                          "3 | Exit the system\n");
       command = Integer.parseInt(reader.nextLine());
     }
     (WareContext.instance()).changeState(3);

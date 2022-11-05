@@ -23,12 +23,12 @@ public class ManagerMenuState extends WareState {
   }
 
   public void help() {
-    System.out.println("Enter a number between 0 and 12 as explained below:");
-    System.out.println(EXIT + " to Exit\n");
-    System.out.println(ADD_PRODUCT + " to add a product");
-    System.out.println(RECEIVE_SHIPMENT + " to receive shipment for a product");
-    System.out.println(BECOME_CLERK + " to become a clerk");
-    System.out.println(HELP + " for help");
+    System.out.println("MANAGER MENU");
+    System.out.println(EXIT + "  | Exit");
+    System.out.println(ADD_PRODUCT + "  | Add a product");
+    System.out.println(RECEIVE_SHIPMENT + " | Receive shipment for a product");
+    System.out.println(BECOME_CLERK + " | Become a clerk");
+    System.out.println(HELP + " | for help");
   }
 
   public void process() {
