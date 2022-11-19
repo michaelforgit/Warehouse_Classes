@@ -1,19 +1,16 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
+import java.text.*;
+import java.io.*;
 
-public class ClerkMenuState extends WareState {
+public class ClerkMenuState extends WareState implements ActionListener{
   private static ClerkMenuState clerkmenustate;
   private Scanner reader = new Scanner(System.in);
   private static Warehouse warehouse;
-  private static final int EXIT = 0;
-  private static final int ADD_CLIENT = 1;
-  private static final int LIST_PRODUCTS = 5;
-  private static final int LIST_CLIENTS = 4;
-  private static final int LIST_CLIENTS_OUTSTANDING = 8;
-  private static final int ACCEPT_PAYMENT = 13;
-  private static final int BECOME_CLIENT = 14;
-  private static final int DISPLAY_PRODUCT_WAITLIST = 9;
-  private static final int HELP = 16;
-  
+  private JFrame frame;
+  private AbstractButton addClientButton, listProductsButton, queryClientsButton, acceptPaymentButton, becomeClientButton, displayProductWaitlistButton, exitButton;
   private ClerkMenuState() {
     warehouse = Warehouse.instance();
   }
@@ -26,63 +23,30 @@ public class ClerkMenuState extends WareState {
     }
   }
 
-  public void help() {
-    System.out.println("CLERK MENU");
-    System.out.println(EXIT + "  | Exit");
-    System.out.println(ADD_CLIENT + "  | Add a client");
-    System.out.println(LIST_PRODUCTS + "  | List all products and information");
-    System.out.println(LIST_CLIENTS + "  | List all clients and information");
-    System.out.println(LIST_CLIENTS_OUTSTANDING + "  | List clients with an outstanding balance");
-    System.out.println(ACCEPT_PAYMENT + " | Accept a client payment");
-    if(WareContext.instance().getLogin() == WareContext.IsClerk){
-      System.out.println(BECOME_CLIENT + " | Log in as a client");
-    }
-    System.out.println(DISPLAY_PRODUCT_WAITLIST + "  | Display a product's waitlist");
-    System.out.println(HELP + " | Help");
-  }
-
   public void process() {
-    int command;
-    help();
-    command = Integer.parseInt(reader.nextLine());
-    while (command != EXIT) {
-      switch (command) {
+    frame = WareContext.instance().getFrame();
+    frame.getContentPane().removeAll();
+    frame.getContentPane().setLayout(new FlowLayout());
 
-        case ADD_CLIENT:
-            addClient();
-            break;
-        case LIST_PRODUCTS:
-            displayProducts();
-            break;
-        case LIST_CLIENTS:
-            displayClients();
-            break;
-        case LIST_CLIENTS_OUTSTANDING:
-            displayOutstandingBalances();
-            break;
-        case ACCEPT_PAYMENT:
-            acceptPayment();
-            break;
-        case BECOME_CLIENT:
-            if (WareContext.instance().getLogin() == WareContext.IsManager){
-              System.out.println("You are logged in as a manager. Please log out first.");
-              break;
-            }
-            becomeClient();
-            break;
-        case DISPLAY_PRODUCT_WAITLIST:
-            displayProductWaitlist();
-            break;
-        case HELP:
-            help();
-            break;
-        default:
-          System.out.println("Invalid choice");
-      }
-      help();
-      command = Integer.parseInt(reader.nextLine());
+    exitButton = new JButton("EXIT");
+    addClientButton = new JButton("ADD CLIENT");
+    listProductsButton = new JButton("LIST PRODUCTS");
+    queryClientsButton = new JButton("QUERY CLIENTS");
+    acceptPaymentButton = new JButton("ACCEPT PAYMENT");
+    becomeClientButton = new JButton("BECOME CLIENT");
+    displayProductWaitlistButton = new JButton("DISPLAY PRODUCT WAITLIST");
+
+    AbstractButton[] buttons = {addClientButton, listProductsButton, queryClientsButton, acceptPaymentButton, becomeClientButton, displayProductWaitlistButton, exitButton};
+
+    for (int i = 0; i < buttons.length; i++) {
+      buttons[i].addActionListener(this);
+      frame.getContentPane().add(buttons[i]);
     }
-    logout();
+
+    frame.setVisible(true);
+    frame.paint(frame.getGraphics());
+    frame.toFront();
+    frame.requestFocus();
   }
 
   public void addClient(){
@@ -105,14 +69,6 @@ public class ClerkMenuState extends WareState {
     warehouse.displayProducts();
   }
 
-  public void displayClients(){
-    warehouse.displayClients();
-  }
-
-  public void displayOutstandingBalances(){
-    warehouse.displayClientsWithBalance();
-  }
-
   public void acceptPayment(){
     System.out.print("Enter client ID: ");
     String cid = reader.nextLine();
@@ -124,12 +80,17 @@ public class ClerkMenuState extends WareState {
 
   }
 
+  public void clear() { //clean up stuff
+    frame.getContentPane().removeAll();
+    frame.paint(frame.getGraphics());   
+  }  
+
   public void becomeClient(){
-    System.out.print("Enter client ID: ");
-    String clientID = reader.nextLine();
+    String clientID = JOptionPane.showInputDialog(frame, "Enter Client ID");
 
     if(warehouse.searchClient(clientID)){
       WareContext.instance().setUser(clientID);
+      clear();
       WareContext.instance().changeState(0);
     }
     else{
@@ -137,11 +98,16 @@ public class ClerkMenuState extends WareState {
     }
   }
 
+
   public void displayProductWaitlist(){
     System.out.print("Enter product ID: ");
     String pid = reader.nextLine();
 
     warehouse.displayProductWaitlist(pid);
+  }
+
+  public void queryClients() {
+    WareContext.instance().changeState(5);
   }
 
   public void run() {
@@ -160,6 +126,24 @@ public class ClerkMenuState extends WareState {
     } else {
       (WareContext.instance()).changeState(3); // [1][3] = -2
     }
+  }
+
+  public void actionPerformed(ActionEvent event) {
+    if (event.getSource().equals(this.exitButton)) {
+      logout();
+    } else if (event.getSource().equals(this.addClientButton)) {
+      addClient();
+    } else if (event.getSource().equals(this.listProductsButton)) {
+      displayProducts();
+    } else if (event.getSource().equals(this.queryClientsButton)) {
+      queryClients();
+    } else if (event.getSource().equals(this.acceptPaymentButton)) {
+      acceptPayment();
+    } else if (event.getSource().equals(this.becomeClientButton)) {
+      becomeClient();
+    } else if (event.getSource().equals(this.displayProductWaitlistButton)) {
+      displayProductWaitlist();
+    } 
   }
  
 }

@@ -1,17 +1,17 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
+import java.text.*;
+import java.io.*;
 
-public class ClientMenuState extends WareState {
+public class ClientMenuState extends WareState implements ActionListener{
   private static ClientMenuState clientState;
   private Scanner reader = new Scanner(System.in);
   private static Warehouse warehouse;
-  private static final int EXIT = 0;
-  private static final int MODIFY_CART = 3;
-  private static final int DISPLAY_PRODUCTS = 5;
-  private static final int DISPLAY_WISHLIST = 6;
-  private static final int PLACE_ORDER = 7;
-  private static final int SHOW_DETAILS = 11;
-  private static final int DISPLAY_TRANSACTIONS = 12;
-  private static final int HELP = 16;
+  private JFrame frame;
+  private AbstractButton displayProductsButton, placeOrderButton, showDetailsButton, displayTransactionsButton, becomeShoppingCartButton, exitButton, helpButton;
+
   private ClientMenuState() {
     warehouse = Warehouse.instance();
   }
@@ -24,89 +24,34 @@ public class ClientMenuState extends WareState {
     }
   }
 
-  public void help() {
-    System.out.println("CLIENT MENU");
-    System.out.println(EXIT + "  | Exit");
-    System.out.println(MODIFY_CART + "  | Modify the shopping cart");
-    System.out.println(DISPLAY_PRODUCTS + "  | Display products with prices");
-    System.out.println(DISPLAY_WISHLIST + "  | Display wishlist");
-    System.out.println(PLACE_ORDER + "  | Place an order");
-    System.out.println(SHOW_DETAILS + " | Display client details");
-    System.out.println(DISPLAY_TRANSACTIONS + " | Display transactions");
-    System.out.println(HELP + " | Help");
-  }
-
   public void process() {
-    int command;
-    help();
-    command = Integer.parseInt(reader.nextLine());
-    while (command != EXIT) {
-      switch (command) {
+    frame = WareContext.instance().getFrame();
+    frame.getContentPane().removeAll();
+    frame.getContentPane().setLayout(new FlowLayout());
 
-        case MODIFY_CART:
-            modifyCart();
-            break;
-        case DISPLAY_PRODUCTS:
-            displayProducts();
-            break;
-        case DISPLAY_WISHLIST:
-            displayWishlist();
-            break;
-        case PLACE_ORDER:
-            placeOrder();
-            break;
-        case SHOW_DETAILS:
-            showDetails();
-            break;
-        case DISPLAY_TRANSACTIONS:
-            displayTransactions();
-            break;
-        case HELP:
-            help();
-            break;
-        default:
-          System.out.println("Invalid choice");
-      }
-      help();
-      command = Integer.parseInt(reader.nextLine());
+    exitButton = new JButton("EXIT");
+    displayProductsButton = new JButton("DISPLAY PRODUCTS");
+    placeOrderButton = new JButton("PLACE ORDER");
+    showDetailsButton = new JButton("SHOW DETAILS");
+    displayTransactionsButton = new JButton("DISPLAY TRANSACTIONS");
+    becomeShoppingCartButton = new JButton("EDIT SHOPPING CART");
+
+    AbstractButton[] buttons = {displayProductsButton, placeOrderButton, showDetailsButton, displayTransactionsButton, becomeShoppingCartButton, exitButton};
+
+    for (int i = 0; i < buttons.length; i++) {
+      buttons[i].addActionListener(this);
+      frame.getContentPane().add(buttons[i]);
     }
-    logout();
+
+    frame.setVisible(true);
+    frame.paint(frame.getGraphics());
+    frame.toFront();
+    frame.requestFocus();
   }
 
-  public void modifyCart(){
-    String clientID = WareContext.instance().getClient();
-
-    do{
-        System.out.print("Enter product ID: ");
-        String productID = reader.nextLine();
-        System.out.print("Enter product quantity: ");
-        int quantity = Integer.parseInt(reader.nextLine());
-        if(warehouse.addToClientWishlist(clientID, productID, quantity)){
-            System.out.println("Added product to wishlist");
-        }
-        else{
-            System.out.println("Invalid information.");
-        }
-        System.out.print("Add another product? (Y/N): ");
-        String choice = reader.nextLine();
-        if(choice.equals("Y") || choice.equals("y")){
-          continue;
-        }
-        else{
-          break;
-        }
-    } while (true);
-
-  }
 
   public void displayProducts(){
     warehouse.displayProducts();
-  }
-
-  public void displayWishlist(){
-    String clientID = WareContext.instance().getClient();
-
-    warehouse.displayClientWishlist(clientID);
   }
 
   public void placeOrder(){
@@ -127,6 +72,10 @@ public class ClientMenuState extends WareState {
     warehouse.displayClientTransactions(clientID);
   }
 
+  public void shoppingCart(){
+    WareContext.instance().changeState(4);
+  }
+
   public void run() {
     process();
   }
@@ -143,6 +92,22 @@ public class ClientMenuState extends WareState {
     }
     else {
       (WareContext.instance()).changeState(3); // [0][3] = -2
+    }
+  }
+
+  public void actionPerformed(ActionEvent event) {
+    if (event.getSource().equals(this.exitButton)) {
+      logout();
+    } else if (event.getSource().equals(this.displayProductsButton)) {
+      displayProducts();
+    } else if (event.getSource().equals(this.placeOrderButton)) {
+      placeOrder();
+    } else if (event.getSource().equals(this.showDetailsButton)) {
+      showDetails();
+    } else if (event.getSource().equals(this.displayTransactionsButton)) {
+      displayTransactions();
+    } else if (event.getSource().equals(this.becomeShoppingCartButton)) {
+      shoppingCart();
     }
   }
 }

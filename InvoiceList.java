@@ -1,12 +1,20 @@
 import java.util.*;
 import java.io.*;
+import java.time.*;
 public class InvoiceList implements Serializable{
     private static final long serialVersionUID = 1L;
-    private LinkedList<Invoice> invoices;
+    private LinkedList<Invoice> invoices = new LinkedList<Invoice>();
     private static InvoiceList invoiceList;
 
     public InvoiceList(){
-        invoices = new LinkedList<Invoice>();
+    }
+
+    public static InvoiceList instance(){
+        if(invoiceList == null){
+            return (invoiceList = new InvoiceList());
+        } else{
+            return invoiceList;
+        }
     }
 
     public boolean addInvoice(Invoice invoice){
@@ -47,5 +55,17 @@ public class InvoiceList implements Serializable{
           cnfe.printStackTrace();
         }//end try-catch block
       }//end readObject
+
+      public boolean inactiveUser() {
+        LocalDate date = LocalDate.now();
+        LocalDate date6MonthsAgo = date.minusMonths(6);
+        for (Iterator<?> current = invoices.iterator(); current.hasNext();) {
+          Invoice invoice = (Invoice) current.next();
+          if (invoice.getDate().isAfter(date6MonthsAgo)) {
+            return false;
+          }
+        }
+        return true;
+      }
 
 }

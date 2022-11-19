@@ -1,5 +1,6 @@
 import java.io.*;
-
+import java.time.*;
+import java.util.Iterator;
 public class Client implements Serializable {
   private static final long serialVersionUID = 1L;
   private String name;
@@ -65,6 +66,10 @@ public class Client implements Serializable {
 
   public void addInvoice(Invoice invoice){
     invoices.addInvoice(invoice);
+  }
+
+  public boolean inactiveUser() {
+    return invoices.inactiveUser();
   }
 
 }

@@ -1,13 +1,15 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
+import java.text.*;
+import java.io.*;
 
-public class LoginState extends WareState{
-  private static final int CLIENT_LOGIN = 0;
-  private static final int CLERK_LOGIN = 1;
-  private static final int MANAGER_LOGIN = 2;
-  private static final int EXIT = 3;
-  private Scanner reader = new Scanner(System.in);
+public class LoginState extends WareState implements ActionListener{
   //private WareContext context;
   private static LoginState instance;
+  private JFrame frame;
+  private AbstractButton clientButton, clerkButton, managerButton, logoutButton;
   private LoginState() {
       super();
      // context = LibContext.instance();
@@ -20,12 +22,28 @@ public class LoginState extends WareState{
     return instance;
   }
 
+  public void actionPerformed(ActionEvent event) {
+    if (event.getSource().equals(this.clientButton)) 
+       {//System.out.println("user \n"); 
+         this.client();}
+    else if (event.getSource().equals(this.logoutButton)) 
+       (WareContext.instance()).changeState(3); //Logout user
+    else if (event.getSource().equals(this.clerkButton)) 
+       this.clerk();
+    else if (event.getSource().equals(this.managerButton)) 
+       this.manager();
+  } 
+  
+  public void clear() { //clean up stuff
+    frame.getContentPane().removeAll();
+    frame.paint(frame.getGraphics());   
+  }  
   private void client(){  //Client
-    System.out.print("Enter client ID: ");
-    String clientID = reader.nextLine();
+    String clientID = JOptionPane.showInputDialog(frame, "Enter Client ID");
     if (Warehouse.instance().searchClient(clientID)){  //Warehouse.instance()
       (WareContext.instance()).setLogin(WareContext.IsClient);
       (WareContext.instance()).setUser(clientID);      
+      clear();
       (WareContext.instance()).changeState(0);
     }
     else 
@@ -34,45 +52,36 @@ public class LoginState extends WareState{
 
   private void clerk(){
     (WareContext.instance()).setLogin(WareContext.IsClerk);
+    clear();
     (WareContext.instance()).changeState(1);
   }
 
   private void manager(){
     (WareContext.instance()).setLogin(WareContext.IsManager);
+    clear();
     (WareContext.instance()).changeState(2);
   }
 
   public void process() {
-    int command;
-    System.out.println("LOGIN SCREEN");
-    System.out.println("0 | Login as Client\n"+ 
-                        "1 | Login as Clerk\n" +
-                        "2 | Login as Manager\n" +
-                        "3 | Exit the system\n");
-    command = Integer.parseInt(reader.nextLine());
-    while (command != EXIT) {
-      switch (command) {
-        case CLIENT_LOGIN:
-          client();
-          break;
-        case CLERK_LOGIN:
-          clerk();
-          break;
-        case MANAGER_LOGIN:
-          manager();
-          break;
+    frame = WareContext.instance().getFrame();
+    frame.getContentPane().removeAll();
+    frame.getContentPane().setLayout(new FlowLayout());
 
-        default:
-          System.out.println("Invalid choice");  
-      }
-      System.out.println("LOGIN SCREEN");
-      System.out.println("0 | Login as Client\n"+ 
-                          "1 | Login as Clerk\n" +
-                          "2 | Login as Manager\n" +
-                          "3 | Exit the system\n");
-      command = Integer.parseInt(reader.nextLine());
+    clientButton = new JButton("Client");
+    clerkButton =  new JButton("Clerk");
+    managerButton = new JButton("Manager");
+    logoutButton = new JButton("Logout");
+
+    AbstractButton[] buttons = {clientButton, clerkButton, managerButton, logoutButton};
+
+    for (int i = 0; i < buttons.length; i++) {
+      buttons[i].addActionListener(this);
+      frame.getContentPane().add(buttons[i]);
     }
-    (WareContext.instance()).changeState(3);
+    frame.setVisible(true);
+    frame.paint(frame.getGraphics());
+    frame.toFront();
+    frame.requestFocus();
   }
 
   public void run() {

@@ -131,6 +131,15 @@ public class Warehouse implements Serializable {
         }
     }
 
+    public void inactiveUser(){
+        for(Iterator<?> current = clients.getClients(); current.hasNext();){
+            Client client = (Client) current.next();
+            if(client.inactiveUser()){
+                System.out.println(client.toString());
+            }
+        }
+    }
+
     public void displayProductWaitlist(String pid){
         Product product = products.findProduct(pid);
 

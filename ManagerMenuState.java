@@ -1,15 +1,17 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
+import java.text.*;
+import java.io.*;
 
-public class ManagerMenuState extends WareState {
+public class ManagerMenuState extends WareState implements ActionListener{
 
   private static ManagerMenuState managermenustate;
   private Scanner reader = new Scanner(System.in);
   private static Warehouse warehouse;
-  private static final int EXIT = 0;
-  private static final int ADD_PRODUCT = 2;
-  private static final int RECEIVE_SHIPMENT = 10;
-  private static final int BECOME_CLERK = 15;
-  private static final int HELP = 16;
+  private JFrame frame;
+  private AbstractButton addProductButton, receiveShipmentButton, becomeClerkButton, exitButton, helpButton;
   private ManagerMenuState() {
     warehouse = Warehouse.instance();
   }
@@ -23,41 +25,32 @@ public class ManagerMenuState extends WareState {
   }
 
   public void help() {
-    System.out.println("MANAGER MENU");
-    System.out.println(EXIT + "  | Exit");
-    System.out.println(ADD_PRODUCT + "  | Add a product");
-    System.out.println(RECEIVE_SHIPMENT + " | Receive shipment for a product");
-    System.out.println(BECOME_CLERK + " | Become a clerk");
-    System.out.println(HELP + " | for help");
+
   }
 
-  public void process() {
-    int command;
-    help();
-    command = Integer.parseInt(reader.nextLine());
-    while (command != EXIT) {
-      switch (command) {
+   public void process() {
+      frame = WareContext.instance().getFrame();
+      frame.getContentPane().removeAll();
+      frame.getContentPane().setLayout(new FlowLayout());
+      
 
-        case ADD_PRODUCT:
-            addProduct();
-            break;
-        case RECEIVE_SHIPMENT:
-            receiveShipment();
-            break;
-        case BECOME_CLERK:
-            becomeClerk();
-            break;
-        case HELP:
-            help();
-            break;
-        default:
-          System.out.println("Invalid choice");
+      exitButton = new JButton("EXIT");
+      addProductButton =  new JButton("ADD A PRODUCT");
+      receiveShipmentButton = new JButton("RECEIVE A SHIPMENT");
+      becomeClerkButton = new JButton("BECOME A CLERK");
+
+      AbstractButton[] buttons = {addProductButton, receiveShipmentButton, becomeClerkButton, exitButton};
+
+      for (int i = 0; i < buttons.length; i++) {
+        buttons[i].addActionListener(this);
+        frame.getContentPane().add(buttons[i]);
       }
-      help();
-      command = Integer.parseInt(reader.nextLine());
+
+      frame.setVisible(true);
+      frame.paint(frame.getGraphics());
+      frame.toFront();
+      frame.requestFocus();
     }
-    logout();
-  }
 
   public void addProduct(){
     System.out.println("Enter product name:");
@@ -104,6 +97,20 @@ public class ManagerMenuState extends WareState {
       } else {  //Should not happen this an error
           (WareContext.instance()).changeState(3); // [2][3] = -2
       }
+  }
+
+  public void actionPerformed(ActionEvent event) {
+    if (event.getSource().equals(this.exitButton)){
+      logout();
+    } else if (event.getSource().equals(this.addProductButton)){
+      addProduct();
+    } else if (event.getSource().equals(this.receiveShipmentButton)){
+      receiveShipment();
+    } else if (event.getSource().equals(this.becomeClerkButton)){
+      becomeClerk();
+    } else if (event.getSource().equals(this.helpButton)){
+      help();
+    }    
   }
 }
 
